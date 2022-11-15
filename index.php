@@ -166,5 +166,86 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 </body>
+<script src="https://code.jquery.com/jquery-3.6.1.slim.js" integrity="sha256-tXm+sa1uzsbFnbXt8GJqsgi2Tw+m4BLGDof6eUPjbtk=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+<script>
+$( document ).ready(function() {
+    // alert('hallo')
+});
+var alumniID = document.getElementById('alumni').getContext('2d');
+var kerjaID = document.getElementById('kerja').getContext('2d');
+var univID = document.getElementById('univ').getContext('2d');
+new Chart(alumniID, {
+    type: 'doughnut',
+    data: {
+        labels: [
+            'kerja',
+            'kuliah',
+            'nganggur'
+            ],
+        datasets: [{
+            label: 'persentase alumni selesai lulus',
+            data: [
+                <?= round($persen_kerja,2); ?>,
+                <?= round($persen_kuliah,2); ?>,
+                <?= round($persen_nganggur,2); ?>
+            ],
+            backgroundColor: [
+            'rgb(255, 99, 132)',
+            'rgb(54, 162, 235)',
+            'rgb(255, 205, 86)'
+            ],
+            hoverOffset: 4
+        }]
+    }
+});
 
+new Chart(univID, {
+  type: "bar",
+  data: {
+    labels: [ <?php  foreach($top_kuliah as $b){
+         echo "'".$b['nama_univ']."',";
+            } ?> ],
+    datasets: [{
+        label: 'data alumni kuliah',
+        backgroundColor:  ["red", "green","blue","orange","brown"],
+        data: [ <?php  foreach($top_kuliah as $p){
+            echo "'".$p['id_kuliah']."',"; 
+                } ?> ] 
+        }]
+  },
+  options: {
+    legend: {display: false},
+    title: {
+      display: true,
+      text: "World Wine Production 2018"
+    }
+  }
+});
+
+new Chart(kerjaID, {
+  type: "bar",
+  data: {
+    labels: [ <?php  foreach($top_kerja as $b){
+         echo "'".$b['nama_perusahaan']."',";
+            } ?> ],
+    datasets: [{
+        label: 'data alumni kerja',
+        backgroundColor:  ["red", "green","blue","orange","brown"],
+        data: [ <?php  foreach($top_kerja as $p){
+            echo "'".$p['id_kerja']."',"; 
+                } ?> ] 
+        }]
+  },
+  options: {
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    }
+  }
+});
+
+
+</script>
 </html>
