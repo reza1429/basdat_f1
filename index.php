@@ -12,7 +12,16 @@
 </head>
 
 <body>
-    <h1>Data Nortif Alumni</h1>
+    <h1 style="text-align: center;">Data Nortif Alumni</h1><br>
+    <div class="d-flex border container-fluid justify-content-center flex-column align-items-center text-center">
+        <div class="col-lg-5 " style="width: 400px;">
+            <canvas style="" id="alumni"></canvas><br><br>
+        </div>
+        <div class="col-lg-5  d-flex justify-content-center" style="width: 500px;">
+            <canvas id="univ" class=""></canvas><br>
+            <canvas id="kerja" class=""></canvas><br><br>
+        </div>
+    </div>
 
     <?php
     $servername = "localhost:3309";
@@ -41,19 +50,17 @@
     // persentase kerja
     $persen_kerja = $jumlah_kerja1 / $jumlah_kerja2 * 100;
 
-    echo "Persentase Kerja : " . round($persen_kerja, 2) . "%<br><br>";
+    // echo "Persentase Kerja : " . round($persen_kerja, 2) . "%<br><br>";
 
 
     // top 5 kerja
     $top_kerja = mysqli_query($conn, "SELECT COUNT(id_kerja) as id_kerja, nama_perusahaan FROM kerja WHERE nama_perusahaan IS NOT NULL GROUP BY nama_perusahaan ORDER BY COUNT(id_kerja) DESC LIMIT 5;");
     ?>
     <div class="container-fluid">
-        <div class="row d-flex justify-content-center flex-column align-items-center">
-            <div class="col-lg-10 ">
+        <div class="row d-flex justify-content-center align-items-center">
+            <div class="col-lg-7 ">
                 <div class="card-shadow mb-4">
                     <!-- <div class="card-header py-2"> -->
-
-
                     <!-- </div> -->
                     <div class="card-body text-center">
                         <h3 class="m-0 font-weight-bold text-dark mb-3">Top 5 Perusahaan</h3>
@@ -88,11 +95,8 @@
 
 
 
-
-
-
-    // persen kuliah
-    // jumlah kuliah
+    <!-- // persen kuliah
+    // jumlah kuliah -->
     <?php
     $kuliah = mysqli_query($conn, "SELECT nama_univ FROM `kuliah` WHERE nama_univ IS NOT NULL");
     $jumlah_kuliah1 = $kuliah->num_rows;
@@ -103,7 +107,7 @@
     // persentase kuliah
     $persen_kuliah = $jumlah_kuliah1 / $jumlah_kuliah2 * 100;
 
-    echo "persen kuliah : " . round($persen_kuliah, 2) . "%<br><br>";
+    // echo "persen kuliah : " . round($persen_kuliah, 2) . "%<br><br>";
 
 
 
@@ -112,20 +116,20 @@
     ?>
     <div class="container-fluid">
         <div class="row d-flex justify-content-center flex-column align-items-center">
-            <div class="col-lg-10 ">
+            <div class="col-lg-7 ">
                 <div class="card-shadow mb-4">
                     <!-- <div class="card-header py-2"> -->
 
 
                     <!-- </div> -->
                     <div class="card-body text-center">
-                        <h3 class="m-0 font-weight-bold text-dark mb-3">Top 5 Kuliah</h3>
+                        <h3 class="m-0 font-weight-bold text-dark mb-3">Top 5 Universitas</h3>
 
                         <table class="table ">
                             <thead class="table-primary">
                                 <tr>
                                     <th scope="col">No</th>
-                                    <th scope="col">Nama Perusahaan</th>
+                                    <th scope="col">Nama Universitas</th>
                                     <th scope="col">Jumlah</th>
                                 </tr>
                             </thead>
@@ -148,18 +152,17 @@
 
         </div>
     </div>
+    <br><br>
 
 
-
-
-
-
+    <!-- 
     // persen nganggur
 
-    // persentase nganggur
+    // persentase nganggur -->
+    <?php
     $persen_nganggur = 100 - ($persen_kerja + $persen_kuliah);
 
-    echo "persen nganggur : " . round($persen_nganggur, 2) . "%";
+    // echo "persen nganggur : " . round($persen_nganggur, 2) . "%";
 
 
     ?>
@@ -169,83 +172,84 @@
 <script src="https://code.jquery.com/jquery-3.6.1.slim.js" integrity="sha256-tXm+sa1uzsbFnbXt8GJqsgi2Tw+m4BLGDof6eUPjbtk=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
 <script>
-$( document ).ready(function() {
-    // alert('hallo')
-});
-var alumniID = document.getElementById('alumni').getContext('2d');
-var kerjaID = document.getElementById('kerja').getContext('2d');
-var univID = document.getElementById('univ').getContext('2d');
-new Chart(alumniID, {
-    type: 'doughnut',
-    data: {
-        labels: [
-            'kerja',
-            'kuliah',
-            'nganggur'
+    $(document).ready(function() {
+        // alert('hallo')
+    });
+    var alumniID = document.getElementById('alumni').getContext('2d');
+    var kerjaID = document.getElementById('kerja').getContext('2d');
+    var univID = document.getElementById('univ').getContext('2d');
+    new Chart(alumniID, {
+        type: 'doughnut',
+        data: {
+            labels: [
+                'kerja',
+                'kuliah',
+                'nganggur'
             ],
-        datasets: [{
-            label: 'persentase alumni selesai lulus',
-            data: [
-                <?= round($persen_kerja,2); ?>,
-                <?= round($persen_kuliah,2); ?>,
-                <?= round($persen_nganggur,2); ?>
-            ],
-            backgroundColor: [
-            'rgb(255, 99, 132)',
-            'rgb(54, 162, 235)',
-            'rgb(255, 205, 86)'
-            ],
-            hoverOffset: 4
-        }]
-    }
-});
+            datasets: [{
+                label: 'persentase alumni selesai lulus',
+                data: [
+                    <?= round($persen_kerja, 2); ?>,
+                    <?= round($persen_kuliah, 2); ?>,
+                    <?= round($persen_nganggur, 2); ?>
+                ],
+                backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 205, 86)'
+                ],
+                hoverOffset: 4
+            }]
+        }
+    });
 
-new Chart(univID, {
-  type: "bar",
-  data: {
-    labels: [ <?php  foreach($top_kuliah as $b){
-         echo "'".$b['nama_univ']."',";
-            } ?> ],
-    datasets: [{
-        label: 'data alumni kuliah',
-        backgroundColor:  ["red", "green","blue","orange","brown"],
-        data: [ <?php  foreach($top_kuliah as $p){
-            echo "'".$p['id_kuliah']."',"; 
-                } ?> ] 
-        }]
-  },
-  options: {
-    legend: {display: false},
-    title: {
-      display: true,
-      text: "World Wine Production 2018"
-    }
-  }
-});
+    new Chart(univID, {
+        type: "bar",
+        data: {
+            labels: [<?php foreach ($top_kuliah as $b) {
+                            echo "'" . $b['nama_univ'] . "',";
+                        } ?>],
+            datasets: [{
+                label: 'data alumni kuliah',
+                backgroundColor: ["red", "green", "blue", "orange", "brown"],
+                data: [<?php foreach ($top_kuliah as $p) {
+                            echo "'" . $p['id_kuliah'] . "',";
+                        } ?>]
+            }]
+        },
+        options: {
+            legend: {
+                display: false
+            },
+            title: {
+                display: true,
+                text: "World Wine Production 2018"
+            }
+        }
+    });
 
-new Chart(kerjaID, {
-  type: "bar",
-  data: {
-    labels: [ <?php  foreach($top_kerja as $b){
-         echo "'".$b['nama_perusahaan']."',";
-            } ?> ],
-    datasets: [{
-        label: 'data alumni kerja',
-        backgroundColor:  ["red", "green","blue","orange","brown"],
-        data: [ <?php  foreach($top_kerja as $p){
-            echo "'".$p['id_kerja']."',"; 
-                } ?> ] 
-        }]
-  },
-  options: {
-    scales: {
-      y: {
-        beginAtZero: true
-      }
-    }
-  }
-});
-
-
+    new Chart(kerjaID, {
+        type: "bar",
+        data: {
+            labels: [<?php foreach ($top_kerja as $b) {
+                            echo "'" . $b['nama_perusahaan'] . "',";
+                        } ?>],
+            datasets: [{
+                label: 'data alumni kerja',
+                backgroundColor: ["red", "green", "blue", "orange", "brown"],
+                data: [<?php foreach ($top_kerja as $p) {
+                            echo "'" . $p['id_kerja'] . "',";
+                        } ?>]
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
 </script>
+
 </html>
