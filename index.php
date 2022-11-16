@@ -15,7 +15,7 @@
     <h1 style="text-align: center;">Data Nortif Alumni</h1><br>
     <div class="d-flex border container-fluid justify-content-center flex-column align-items-center text-center">
         <div class="col-lg-5 " style="width: 400px;">
-            <canvas style="" id="alumni"></canvas><br><br>
+            <canvas id="alumni"></canvas><br><br>
         </div>
         <div class="col-lg-5  d-flex justify-content-center" style="width: 500px;">
             <canvas id="univ" class=""></canvas><br>
